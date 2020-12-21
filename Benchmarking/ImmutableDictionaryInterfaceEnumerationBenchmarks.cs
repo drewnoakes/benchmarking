@@ -21,11 +21,21 @@ namespace Benchmarking
         }
 
 /*
+// with assumption that interface is actually concrete type, for testing purposes
+
 |                                Method |     Mean |   Error |  StdDev | Gen 0 | Gen 1 | Gen 2 | Allocated |
 |-------------------------------------- |---------:|--------:|--------:|------:|------:|------:|----------:|
 | ForEachInterface_OptimisticNoAllocate | 212.2 us | 1.70 us | 1.59 us |     - |     - |     - |         - |
 |                      ForEachInterface | 266.9 us | 2.24 us | 2.09 us |     - |     - |     - |     156 B |
 |                       ForEachConcrete | 210.2 us | 1.44 us | 1.20 us |     - |     - |     - |         - |
+
+// with actual delegation if not concrete, for full compatibility
+
+|                                Method |     Mean |   Error |  StdDev | Gen 0 | Gen 1 | Gen 2 | Allocated |
+|-------------------------------------- |---------:|--------:|--------:|------:|------:|------:|----------:|
+| ForEachInterface_OptimisticNoAllocate | 221.4 us | 2.65 us | 2.35 us |     - |     - |     - |         - |
+|                      ForEachInterface | 271.0 us | 3.10 us | 2.90 us |     - |     - |     - |     156 B |
+|                       ForEachConcrete | 228.2 us | 1.39 us | 1.08 us |     - |     - |     - |         - |
 */
 
         [Benchmark]
@@ -81,37 +91,38 @@ namespace Benchmarking
 
         internal struct Enumerator : IDisposable
         {
-            //            private readonly bool _isConcrete;
+            // TODO faster to check fallback for null than bool?
+            private readonly bool _isConcrete;
             private ImmutableDictionary<TKey, TValue>.Enumerator _concreteEnumerator;
-            //            private IEnumerator<KeyValuePair<TKey, TValue>> _fallbackEnumerator;
+            private readonly IEnumerator<KeyValuePair<TKey, TValue>> _fallbackEnumerator;
 
             public Enumerator(IImmutableDictionary<TKey, TValue> dic)
             {
-                _concreteEnumerator = ((ImmutableDictionary<TKey, TValue>)dic).GetEnumerator();
-                //                if (dic is ImmutableDictionary<TKey, TValue> concrete)
-                //                {
-                ////                    _isConcrete = true;
-                //                    _concreteEnumerator = concrete.GetEnumerator();
-                ////                    _fallbackEnumerator = null;
-                //                }
-                //                else throw new Exception();
-
-                //                else
-                //                {
-                //                    _isConcrete = false;
-                //                    _fallbackEnumerator = dic.GetEnumerator();
-                //                    _concreteEnumerator = default;
-                //                }
+                if (dic is ImmutableDictionary<TKey, TValue> concrete)
+                {
+                    _isConcrete = true;
+                    _concreteEnumerator = concrete.GetEnumerator();
+                    _fallbackEnumerator = null;
+                }
+                else
+                {
+                    _isConcrete = false;
+                    _fallbackEnumerator = dic.GetEnumerator();
+                    _concreteEnumerator = default;
+                }
             }
 
-            public bool MoveNext()
+            public bool MoveNext() => _isConcrete ? _concreteEnumerator.MoveNext() : _fallbackEnumerator.MoveNext();
+
+            public KeyValuePair<TKey, TValue> Current => _isConcrete ? _concreteEnumerator.Current : _fallbackEnumerator.Current;
+
+            public void Dispose()
             {
-                return /*_isConcrete ? */_concreteEnumerator.MoveNext()/* : _fallbackEnumerator.MoveNext()*/;
+                if (_isConcrete)
+                    _concreteEnumerator.Dispose();
+                else
+                    _fallbackEnumerator.Dispose();
             }
-
-            public KeyValuePair<TKey, TValue> Current => /*_isConcrete ? */_concreteEnumerator.Current/* : _fallbackEnumerator.Current*/;
-
-            public void Dispose() => _concreteEnumerator.Dispose();
         }
     }
 }

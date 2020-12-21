@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Security.Cryptography;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 
 namespace Benchmarking
 {
-    [ClrJob]
+    [SimpleJob(RuntimeMoniker.Net48)]
     [RankColumn]
     [MemoryDiagnoser]
     public class Md5VsSha256

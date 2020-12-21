@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 
 namespace Benchmarking
 {
@@ -19,7 +20,7 @@ namespace Benchmarking
            XDocumentLoad | 196.7 us |  6.266 us | 18.47 us | 191.5 us | 8.7891 | 0.2441 |  45.87 KB |
      */
 
-    [ClrJob]
+    [SimpleJob(RuntimeMoniker.Net48)]
     [MemoryDiagnoser]
     public class XmlDocumentVsXDocumentBenchmark
     {

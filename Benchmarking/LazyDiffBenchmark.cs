@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 
 namespace Benchmarking
 {
-    [ClrJob]
+    [SimpleJob(RuntimeMoniker.Net48)]
     [RankColumn]
     [MemoryDiagnoser]
     public class LazyDiffBenchmark

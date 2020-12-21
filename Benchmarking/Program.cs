@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Immutable;
+
 using BenchmarkDotNet.Running;
 
 namespace Benchmarking
@@ -28,8 +29,29 @@ namespace Benchmarking
 //            BenchmarkRunner.Run<ExchangeVsCompareExchangeBenchmarks>();
 //            BenchmarkRunner.Run<ImmutableDictionaryEnumerationBenchmarks>();
 //            BenchmarkRunner.Run<IsHexCharBenchmarks>();
-            BenchmarkRunner.Run<XmlDocumentVsXDocumentBenchmark>();
-            
+//            BenchmarkRunner.Run<XmlDocumentVsXDocumentBenchmark>();
+//            BenchmarkRunner.Run<LockedDictionaryVsImmutableDictionaryBenchmarks>();
+//            BenchmarkRunner.Run<StringComparisonEqualsBenchmarks>();
+//            BenchmarkRunner.Run<PopCountBenchmarks>();
+//            BenchmarkRunner.Run<IteratorVsEnumeratorBenchmarks>();
+//            BenchmarkRunner.Run<EmptyEnumeratorBenchmarks>();
+//            BenchmarkRunner.Run<ImmutableSortedSetIterationBenchmarks>();
+//            BenchmarkRunner.Run<RefLocalArrayAccessBenchmarks>();
+//            BenchmarkRunner.Run<ImmutableDictionaryAggregationBenchmarks>();
+//            BenchmarkRunner.Run<CharArrayContainsCharBenchmarks>();
+
+//            Console.Out.WriteLine(typeof(ImmutableSortedSet).Assembly);
+
+            BenchmarkRunner.Run<ImmutableDictionaryInterfaceEnumerationBenchmarks>();
+//            BenchmarkRunner.Run<ImmutableDictionaryConstructionBenchmarks>();
+
+//            Console.ReadLine();
+//            var benchmarks = new IImmutableDictionaryEnumerationBenchmarks();
+//            for (int i = 0; i < 100_000; i++) benchmarks.ForEachOptimisticNoAllocate();
+//
+//            Console.Out.WriteLine("Done");
+//            Console.ReadLine();
+
 //            BenchmarkRunner.Run<LazyDiffBenchmark>();
 
 //            for (var c = 0; c < 256; c++)
@@ -40,8 +62,20 @@ namespace Benchmarking
 //                    throw new Exception($"Invalid implementation 2: {c} {((char) c)}");
 //            }
 
-            Console.Out.WriteLine("DONE");
+/*            var foo = new IImmutableDictionaryEnumerationBenchmarks();
+            
+            foo.ForEachAllocate();
+            foo.ForEachAllocate();
+            foo.ForEachAllocate();
+//            foo.ForEachOptimisticNoAllocate();
+//            foo.ForEachOptimisticNoAllocate();
+//            foo.ForEachOptimisticNoAllocate();
+            
+            Console.WriteLine("Press enter to enumerate");
             Console.ReadLine();
+//            foo.ForEachOptimisticNoAllocate();
+            foo.ForEachAllocate();
+            Console.ReadLine();*/
         }
     }
 }

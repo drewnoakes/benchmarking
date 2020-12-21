@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 
 namespace Benchmarking
 {
-    [ClrJob]
+    [SimpleJob(RuntimeMoniker.Net48)]
     [MemoryDiagnoser]
     public class IsHexCharBenchmarks
     {

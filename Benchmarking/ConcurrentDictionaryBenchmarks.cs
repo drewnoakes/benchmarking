@@ -1,9 +1,10 @@
 ﻿using System.Collections.Concurrent;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 
 namespace Benchmarking
 {
-    [ClrJob]
+    [SimpleJob(RuntimeMoniker.Net48)]
     [MemoryDiagnoser]
     public class ConcurrentDictionaryBenchmarks
     {

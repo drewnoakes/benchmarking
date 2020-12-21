@@ -1,9 +1,10 @@
 ﻿using System.Threading;
 using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Jobs;
 
 namespace Benchmarking
 {
-    [ClrJob]
+    [SimpleJob(RuntimeMoniker.Net48)]
     public class ExchangeVsCompareExchangeBenchmarks
     {
         private const int OperationCount = 100_000_000;

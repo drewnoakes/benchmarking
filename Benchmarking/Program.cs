@@ -42,7 +42,8 @@ namespace Benchmarking
 
 //            Console.Out.WriteLine(typeof(ImmutableSortedSet).Assembly);
 
-            BenchmarkRunner.Run<ImmutableDictionaryInterfaceEnumerationBenchmarks>();
+            BenchmarkRunner.Run<FilePathHashBenchmarks>();
+//            BenchmarkRunner.Run<ImmutableDictionaryInterfaceEnumerationBenchmarks>();
 //            BenchmarkRunner.Run<ImmutableDictionaryConstructionBenchmarks>();
 
 //            Console.ReadLine();
